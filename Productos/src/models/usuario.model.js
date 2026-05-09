@@ -71,6 +71,23 @@ Usuario.remove = (id, result) => {
         }
         result(null, res);
     });
+    usuario.login = (usuario, contrasenia, result) => {
+    sql.query(
+        "SELECT id, usuario FROM usuarios WHERE usuario = ? AND contrasenia = ?",
+        [usuario, contrasenia],
+        (err, res) => {
+            if (err) {
+                result(err, null);
+                return;
+            }
+            if (res.length) {
+                result(null, res[0]);
+                return;
+            }
+            result({ kind: "not_found" }, null);
+        }
+    );
+};
 };
 
 module.exports = Usuario;

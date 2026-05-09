@@ -98,4 +98,21 @@ exports.delete = (req, res) => {
         }
         return res.status(204).send();
     });
+    exports.login = (req, res) => {
+    const { usuario, contrasenia } = req.body;
+    
+    if (!usuario || !contrasenia) {
+        return response.error(res, 'Usuario y contraseña son requeridos', 400, 'DATOS_INVALIDOS');
+    }
+    
+    UsuarioModel.login(usuario, contrasenia, (err, data) => {
+        if (err) {
+            if (err.kind === 'not_found') {
+                return response.error(res, 'Credenciales incorrectas', 401, 'NO_AUTORIZADO');
+            }
+            return response.error(res, 'Error al iniciar sesión', 500, 'ERROR_INTERNO');
+        }
+        return response.success(res, data, 'Login exitoso');
+    });
+};
 };
