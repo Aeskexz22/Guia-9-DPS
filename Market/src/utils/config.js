@@ -1,0 +1,1 @@
+export const API_URL = 'https://guia-9-dps-production.up.railway.app/api';
